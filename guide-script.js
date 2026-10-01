@@ -1,28 +1,31 @@
+// HTML Elements
+const resetButton = document.querySelector('#reset');
 const squares = document.querySelectorAll('.square');
-const currentPlayer = document.querySelector('#current-player');
+const currentPlayerText = document.querySelector('#current-player');
 
-let player = 'X';
-currentPlayer.textContent = player;
+// Tracking Variables
+let currentPlayer = 'X';
+currentPlayerText.textContent = currentPlayer;
 
-function handleClick(event) {
-  const square = event.target; // the one square that was clicked
-
-  // Don't let a player overwrite a square that's already taken
-  if (square.textContent !== '') {
-    return;
-  }
-
-  square.textContent = player;
-
-  // Switch turns
-  if (player === 'X') {
-    player = 'O';
+// Functions
+function switchPlayer() {
+  if (currentPlayer === 'X') {
+    currentPlayer = 'O';
   } else {
-    player = 'X';
+    currentPlayer = 'X';
   }
-  currentPlayer.textContent = player;
+  currentPlayerText.textContent = currentPlayer;
 }
 
+function playTurn(event) {
+  const square = event.target;
+  if (square.textContent === '') {
+    square.textContent = currentPlayer;
+    switchPlayer();
+  }
+}
+
+// Event Listeners
 for (const square of squares) {
-  square.addEventListener('click', handleClick);
+  square.addEventListener('click', playTurn);
 }
